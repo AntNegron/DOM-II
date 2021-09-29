@@ -6,6 +6,7 @@ let scale = 1;
 const funBusP = document.querySelector('.intro p');
 const letsGo = document.querySelector('content-section h2');
 const destination = document.querySelector('.content-destination');
+const footer = document.querySelector('.footer');
 
 // mouseover
 Array.from(document.links).forEach(link => {
@@ -82,4 +83,23 @@ let ticking = false;
 function scroll(scroll_pos) {
 
 }
-window.addEventListener
+window.addEventListener('scroll', function() {
+    scrollPosition = window.scrollY;
+
+    if(!ticking) {
+        window.requestAnimationFrame(function() {
+            scroll(scrollPosition);
+            ticking = false;
+        });
+        
+        ticking = true;
+    }
+});
+
+// cut
+footer.addEventListener('cut', (event) => {
+    const selection = document.getSelection();
+    event.clipboardData.setData('text/plain', selection.toString().toUpperCase());
+    selection.deleteFromDocument();
+    event.preventDefault();
+});
